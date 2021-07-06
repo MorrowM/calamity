@@ -1,5 +1,3 @@
-{-# LANGUAGE NoPolyKinds #-}
-
 -- | Commands and stuff
 module CalamityCommands.Command (Command (..)) where
 
@@ -7,6 +5,7 @@ import CalamityCommands.Check
 import CalamityCommands.Error
 import CalamityCommands.Group
 import CalamityCommands.ParameterInfo
+import CalamityCommands.Internal.HList
 
 import Control.Lens hiding (Context, (<.>))
 
@@ -22,14 +21,14 @@ import TextShow
 import qualified TextShow.Generic as TSG
 
 -- | A command, paremeterised over its context
-data Command (m :: Type -> Type) (c :: Type) (a :: Type) = forall p.
+data Command (m :: Type -> Type) (c :: Type) (chks :: CheckInfo) (a :: Type) = forall p.
   Command
   { names :: NonEmpty S.Text
-  , parent :: Maybe (Group m c a)
+  , parent :: Maybe (Group m c (ParentTypes chks) a)
   , -- | If this command is hidden
     hidden :: Bool
   , -- | A list of checks that must pass for this command to be invoked
-    checks :: [Check m c]
+    checks :: HList (Check m c) (CheckTypes chks)
   , -- | A list of parameter metadata
     params :: [ParameterInfo]
   , -- | A function producing the \'help\' for the command.
@@ -52,6 +51,7 @@ data CommandS = CommandS
   deriving (Generic, Show)
   deriving (TextShow) via TSG.FromGeneric CommandS
 
+{-
 instance Show (Command m c a) where
   showsPrec d Command{names, params, parent, checks, hidden} =
     showsPrec d $
@@ -71,3 +71,4 @@ instance TextShow (Command m c a) where
         (NE.head <$> parent ^? _Just . #names)
         (checks ^.. traverse . #name)
         hidden
+-}

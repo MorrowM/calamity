@@ -1,3 +1,5 @@
+{-# LANGUAGE PolyKinds #-}
+
 -- | Commands and stuff
 module CalamityCommands.Command
     ( Command
@@ -6,8 +8,8 @@ module CalamityCommands.Command
 import TextShow
 import Data.Kind (Type)
 
-type role Command representational representational nominal
-data Command (m :: Type -> Type) (c :: Type) (a :: Type)
+type role Command representational representational phantom nominal
+data Command (m :: Type -> Type) (c :: Type) (chks :: '( '[Type], '[ '[Type]])) (a :: Type)
 
-instance Show (Command m c a)
-instance TextShow (Command m c a)
+-- instance Show (Command m c a)
+-- instance TextShow (Command m c a)

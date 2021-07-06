@@ -4,7 +4,7 @@ cabal-version: 1.18
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ec3fda8daa0c65a69c2b8cfae6a5cb025d8069ab3fe541918c0d14456fa3143b
+-- hash: 2311dee7f5f3554b9d91ed518509270b0d3524d03d563dc23ec15b402d963e9e
 
 name:           calamity-commands
 version:        0.1.3.0
@@ -44,6 +44,7 @@ library
       CalamityCommands.Group
       CalamityCommands.Handler
       CalamityCommands.Help
+      CalamityCommands.Internal.HList
       CalamityCommands.Internal.LocalWriter
       CalamityCommands.Internal.RunIntoM
       CalamityCommands.Internal.Utils
